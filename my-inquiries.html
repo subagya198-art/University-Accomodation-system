@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Inquiries — BAMS</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="shell">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">BAMS</span>
+      <span class="brand-tag">SEU · Oluvil</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="index.html">Browse</a>
+      <a href="my-inquiries.html" data-nav="inquiries" class="active">My Inquiries</a>
+      <a href="provider-dashboard.html" data-nav="provider">Provider Dashboard</a>
+      <a href="admin.html" data-nav="admin">Admin</a>
+    </nav>
+    <span id="auth-slot"></span>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="dash-header">
+    <div>
+      <h1>My Inquiries</h1>
+      <p>Messages you've sent to boarding providers, and their replies.</p>
+    </div>
+  </div>
+
+  <div style="padding: 24px 0 60px; max-width: 720px;" id="inquiries-list"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="shell">BAMS — Final Year Project, MIT-PR01 · SEU/IS/21/MIT/151</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/header.js"></script>
+<script>
+  const student = requireAuth("student");
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function render() {
+    const inquiries = getInquiriesForStudent(student.id);
+    const el = document.getElementById("inquiries-list");
+
+    if (inquiries.length === 0) {
+      el.innerHTML = `
+        <div class="empty-state">
+          You haven't sent any inquiries yet. Browse listings and contact a provider to get started.
+          <br /><br />
+          <a href="index.html" class="btn btn-outline" style="text-decoration:none;">Browse listings</a>
+        </div>`;
+      return;
+    }
+
+    el.innerHTML = inquiries
+      .map(
+        (i) => `
+      <div class="inquiry-thread">
+        <div class="thread-top">
+          <a href="listing.html?id=${i.listingId}" class="thread-listing">${i.listingTitle} <span style="color:var(--ink-soft); font-weight:400; font-size:13px;">· ${i.listingCode}</span></a>
+          <span class="thread-date">${fmtDate(i.submittedAt)}</span>
+        </div>
+        <div class="bubble bubble-sent">
+          <div class="who">You, to ${i.providerName}</div>
+          ${i.message}
+        </div>
+        ${
+          i.reply
+            ? `<div class="bubble bubble-reply">
+                <div class="who">${i.providerName} replied</div>
+                ${i.reply.message}
+              </div>`
+            : `<p class="awaiting-reply">Awaiting reply from the provider…</p>`
+        }
+      </div>`
+      )
+      .join("");
+  }
+
+  render();
+</script>
+</body>
+</html>

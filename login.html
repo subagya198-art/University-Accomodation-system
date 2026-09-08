@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log In — BAMS</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="shell">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">BAMS</span>
+      <span class="brand-tag">SEU · Oluvil</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="index.html">Browse</a>
+      <a href="my-inquiries.html" data-nav="inquiries">My Inquiries</a>
+      <a href="provider-dashboard.html" data-nav="provider">Provider Dashboard</a>
+      <a href="admin.html" data-nav="admin">Admin</a>
+    </nav>
+    <span id="auth-slot"></span>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <p class="auth-eyebrow">Welcome back</p>
+      <h1>Log in to BAMS</h1>
+
+      <div class="auth-error" id="auth-error"></div>
+
+      <form id="login-form">
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required />
+        </div>
+
+        <button type="submit" class="btn" style="width:100%;">Log in</button>
+      </form>
+
+      <p class="auth-switch">Don't have an account? <a href="register.html">Register</a></p>
+
+      <p class="auth-hint">Demo admin login — admin@bams.lk / admin123</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="shell">BAMS — Final Year Project, MIT-PR01 · SEU/IS/21/MIT/151</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/header.js"></script>
+<script>
+  document.getElementById("login-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const errorBox = document.getElementById("auth-error");
+    errorBox.classList.remove("show");
+
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    const result = loginUser({ email, password });
+
+    if (!result.ok) {
+      errorBox.textContent = result.error;
+      errorBox.classList.add("show");
+      return;
+    }
+
+    // Send each role to their own home base.
+    if (result.user.role === "provider") {
+      window.location.href = "provider-dashboard.html";
+    } else if (result.user.role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "index.html";
+    }
+  });
+</script>
+</body>
+</html>

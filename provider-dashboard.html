@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Provider Dashboard — BAMS</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="shell">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">BAMS</span>
+      <span class="brand-tag">SEU · Oluvil</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="index.html">Browse</a>
+      <a href="my-inquiries.html" data-nav="inquiries">My Inquiries</a>
+      <a href="provider-dashboard.html" data-nav="provider" class="active">Provider Dashboard</a>
+      <a href="admin.html" data-nav="admin">Admin</a>
+    </nav>
+    <span id="auth-slot"></span>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="dash-header">
+    <div>
+      <h1>My Listings</h1>
+      <p>Add, edit, and track the approval status of your boarding listings.</p>
+    </div>
+    <button class="btn" id="add-listing-btn">+ Add new listing</button>
+  </div>
+
+  <div id="form-panel-slot"></div>
+
+  <div class="dash-grid" id="listings-list"></div>
+
+  <div class="dash-header" style="padding-top: 8px;">
+    <div>
+      <h1 style="font-size: 22px;">Inquiries</h1>
+      <p>Messages from students about your listings.</p>
+    </div>
+  </div>
+  <div style="padding: 24px 0 60px; max-width: 720px;" id="inquiries-list"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="shell">BAMS — Final Year Project, MIT-PR01 · SEU/IS/21/MIT/151</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/header.js"></script>
+<script src="js/provider.js"></script>
+</body>
+</html>
